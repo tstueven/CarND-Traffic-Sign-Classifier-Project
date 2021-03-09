@@ -76,20 +76,21 @@ completely missing which leads to large problems later.
 
 As a first step, I decided to convert the images to grayscale because results
 were a lot better than when I kept all color channels. I found this
-counter-intuitive since many signs are distinctly red or blue which should help
-with classification. I probably just gets too complex when keeping all these
-information and this makes it a lot more difficult for the model to converge.
+counter-intuitive since many signs are distinctively red or blue which should
+help with classification. I probably just gets too complex when keeping all
+these information and this makes it a lot more difficult for the model to
+converge.
 
 Here is an example of a traffic sign image before and after grayscaling.
 
 ![alt text][image2]
 
 As a last step, I normalized the image data because that is beneficial for
-learning
+learning.
 
-I decided against generating additional data because I didn't expect it to help
-with the biggest problem in the end for which I'd have had to generate whole new
-classes.
+I decided against the effort of generating additional data because I didn't
+expect it to help with the biggest problem in the end for which I'd have had to
+generate whole new classes.
 
 #### 2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
 
@@ -114,8 +115,6 @@ My final model consisted of the following layers:
 | RELU                    |												|
 | Dropout                | 0.5                      |
 | Fully connected        | ouputs 43         |
-| RELU                    |												|
-| Dropout                | 0.5                      |
 | Softmax                |                                            |
 |						|												|
 | Cross Entropy Error    |    For Learning            |
@@ -126,13 +125,13 @@ To train the model, I used the Adam optimizer with a batch size of 128 and a
 learning rate of 0.001. These were defaults taken from LeNet and modifications
 did not seem to lead to significantly better results. After about 50 epochs the
 model did not seem to improve on validation accuracy, so I let the training stop
-after 60 epochs.
+after 80 epochs.
 
 #### 4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
 
 I started with the LeNet because the problem did not seem to different from
 identifying handwritten digits (low number of classes, low resolution, little
-complexity). First I only adopted the input size. Then I hoped to get better
+complexity). First I only adapted the input size. Then I hoped to get better
 results with dropout and probably replacing the max pooling which seems to be
 out of fashion. To let the network have a chance to evaluate still well with
 dropout I upped the number of convolutional filters. Max pooling turned out to
@@ -166,7 +165,8 @@ tilted. The sign in the secon image is also relatively small.
 
 The third and fourth image are impossible to classify because they were not
 represented in the original data set. I only realized this after I had already
-processed them and was disappointed about the result.
+processed them and was disappointed about the result. I then kept then because I
+found the behaviour interesting.
 
 #### 2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
 
@@ -235,7 +235,7 @@ The top five soft max probabilities were
 | .05                   | Roundabout mandatory  |
 | .05                    | Keep right                              |
 
-The fourth image would be predicted wrongly. The model is quite certain that a
+The fourth image was predicted wrongly. The model is quite certain that a
 sign it has never seen before is the No entry sign which is was not able to
 recognize in the second image. Here I'd probably help to somehow make better use
 of the colors than I was able to.
@@ -250,7 +250,7 @@ The top five soft max probabilities were
 | .01                   | Turn left ahead  |
 | .01                    | Stop                              |
 
-The fifths image was classifies perfectly! :)
+The fifths image was classified perfectly! :)
 
 The top five soft max probabilities were
 
