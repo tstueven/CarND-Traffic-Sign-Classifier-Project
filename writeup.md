@@ -56,7 +56,7 @@ data set:
 * The size of training set is 34799
 * The size of the validation set is 4410
 * The size of test set is 12630
-* The shape of a traffic sign image is 32x32
+* The shape of a traffic sign image is 32x32x3
 * The number of unique classes/labels in the data set is 43
 
 #### 2. Include an exploratory visualization of the dataset.
@@ -77,16 +77,21 @@ completely missing which leads to large problems later.
 As a first step, I decided to convert the images to grayscale because results
 were a lot better than when I kept all color channels. I found this
 counter-intuitive since many signs are distinctively red or blue which should
-help with classification. I probably just gets too complex when keeping all
-these information and this makes it a lot more difficult for the model to
-converge.
+help with classification. On the other hand, colour-blind people have no problems
+reading traffic signs. Thus, there is no fundamental difficulty in recognizing
+in grayscale. Takne everything together, apparantly a reduction in dimension is
+worth a lot more than the additional color information.
 
 Here is an example of a traffic sign image before and after grayscaling.
 
 ![alt text][image2]
 
 As a last step, I normalized the image data because that is beneficial for
-learning.
+learning. This is because the weights get updated in backpropagation by  
+activations multiplied with the learning rate which is the same for all weights.
+And if the activations now differ a lot over different inputs that in principle
+should have a similar activation it is difficult for the network to settle on 
+optimal weight values.
 
 I decided against the effort of generating additional data because I didn't
 expect it to help with the biggest problem in the end for which I'd have had to
@@ -123,9 +128,10 @@ My final model consisted of the following layers:
 
 To train the model, I used the Adam optimizer with a batch size of 128 and a
 learning rate of 0.001. These were defaults taken from LeNet and modifications
-did not seem to lead to significantly better results. After about 50 epochs the
-model did not seem to improve on validation accuracy, so I let the training stop
-after 80 epochs.
+did not seem to lead to significantly better results. It let the model train for
+up to 80 epochs but implement a mechanism for training to stop if the valiadation
+score does not improve for more than three times in a row. Taht happended after
+31 epochs.
 
 #### 4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
 
@@ -146,9 +152,9 @@ there was not much room left for improvement from those data.
 
 My final model results were:
 
-* training set accuracy of 0.998
-* validation set accuracy of 0.961
-* test set accuracy of 0.957
+* training set accuracy of 0.994
+* validation set accuracy of 0.960
+* test set accuracy of 0.951
 
 ### Test a Model on New Images
 
@@ -172,13 +178,13 @@ found the behaviour interesting.
 
 Here are the results of the prediction:
 
-| Image                    |     Prediction                                | 
+| Image                 |     Prediction                                | 
 |:---------------------:|:---------------------------------------------:| 
 | Right-of-way at the next intersection| Right-of-way at the next intersection | 
-| No entry                | Turn right ahead       |
-| No stopping                | Right-of-way at the next intersection                 |
-| Bus lane               | No entry                                    |
-| Priority road           | Priority road                               |
+| No entry              | Turn right ahead                              |
+| No stopping           | Right-of-way at the next intersection         |
+| Bus lane              | No entry                                      |
+| Priority road         | Priority road                                 |
 
 The model was able to correctly guess 2 of the 5 traffic signs, which gives an
 accuracy of 40%. This is a lot worse than in the test set but to be expected in
